@@ -2,7 +2,7 @@ var gameStarted = false
 var level = 0
 
 var buttonColors = ["red", "blue", "green", "yellow"]
-var randomChosenColor = buttonColors[nextSequence()]
+var randomChosenColor = buttonColors[Math.floor(Math.random() * 4)]
 
 var gamePattern = []
 gamePattern.push(randomChosenColor)
@@ -10,6 +10,9 @@ var userClickedPattern = []
 
 function nextSequence() {
 	var randomNumber = Math.floor(Math.random() * 4)
+
+	// level++
+	$("#level-title").text("Level " + ++level)
 
 	return randomNumber
 }
@@ -75,3 +78,4 @@ if (!gameStarted) {
 	})
 }
 console.log(gameStarted)
+console.log(gamePattern)

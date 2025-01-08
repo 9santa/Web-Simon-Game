@@ -2,24 +2,28 @@ var gameStarted = false
 var level = 0
 
 var buttonColors = ["red", "blue", "green", "yellow"]
-var randomChosenColor = buttonColors[Math.floor(Math.random() * 4)]
 
 var gamePattern = []
-gamePattern.push(randomChosenColor)
+
 var userClickedPattern = []
 
 function nextSequence() {
+	userClickedPattern = []
 	var randomNumber = Math.floor(Math.random() * 4)
+	var randomChosenColor = buttonColors[randomNumber]
+	gamePattern.push(randomChosenColor)
 
-	// level++
+	$("#" + randomChosenColor)
+		.fadeToggle(100)
+		.fadeToggle(100)
+
 	$("#level-title").text("Level " + ++level)
 
-	return randomNumber
-}
+	console.log(gamePattern)
+	// console.log(userClickedPattern)
 
-$("#" + randomChosenColor)
-	.fadeToggle(100)
-	.fadeToggle(100)
+	return randomChosenColor
+}
 
 function playSound(color) {
 	switch (color) {
@@ -49,8 +53,6 @@ function playSound(color) {
 	}
 }
 
-console.log("random color is: " + randomChosenColor)
-
 function animatePress(currentColor) {
 	currentColor.addClass("pressed")
 	setTimeout(function () {
@@ -60,22 +62,40 @@ function animatePress(currentColor) {
 
 $(".btn").on("click", function () {
 	var userChosenColor = $(this).attr("id")
-	console.log(userChosenColor)
+	userClickedPattern.push(userChosenColor)
 
 	playSound(userChosenColor)
 	animatePress($(this))
-	userClickedPattern.push(userChosenColor)
-	// console.log(userClickedPattern)
+
+	checkAnswer(userClickedPattern[userClickedPattern.length - 1])
+	console.log(userClickedPattern)
 })
 
+function checkAnswer(currentLevel) {
+	if (currentLevel == gamePattern[userClickedPattern.length - 1]) {
+		// console.log("success")
+		if (userClickedPattern.length == gamePattern.length) {
+			setTimeout(function () {
+				nextSequence()
+			}, 1000)
+		}
+	} else {
+		// console.log("wrong")
+
+		$("#level-title").text("Game Over")
+		level = 0
+		userClickedPattern = []
+		gamePattern = []
+	}
+}
+
+console.log(gameStarted)
 if (!gameStarted) {
-	$(document).on("keypress", function () {
+	gameStarted = true
+	$(document).one("keypress", function () {
 		nextSequence()
-		gameStarted = true
-		$("#level-title").text("Level " + level)
+		// $("#level-title").text("Level " + level)
 
 		console.log(gameStarted)
 	})
 }
-console.log(gameStarted)
-console.log(gamePattern)

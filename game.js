@@ -1,4 +1,5 @@
 var gameStarted = false
+var level = 0
 
 var buttonColors = ["red", "blue", "green", "yellow"]
 var randomChosenColor = buttonColors[nextSequence()]
@@ -68,6 +69,8 @@ if (!gameStarted) {
 	$(document).on("keypress", function () {
 		nextSequence()
 		gameStarted = true
+		$("#level-title").text("Level " + level)
+
 		console.log(gameStarted)
 	})
 }

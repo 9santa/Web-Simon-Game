@@ -1,3 +1,5 @@
+var gameStarted = false
+
 var buttonColors = ["red", "blue", "green", "yellow"]
 var randomChosenColor = buttonColors[nextSequence()]
 
@@ -61,3 +63,12 @@ $(".btn").on("click", function () {
 	userClickedPattern.push(userChosenColor)
 	// console.log(userClickedPattern)
 })
+
+if (!gameStarted) {
+	$(document).on("keypress", function () {
+		nextSequence()
+		gameStarted = true
+		console.log(gameStarted)
+	})
+}
+console.log(gameStarted)
